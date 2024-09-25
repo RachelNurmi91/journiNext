@@ -24,6 +24,13 @@ const SideNav = ({ onClose }) => {
               >
                 Hotels
               </Link>
+              <Link 
+                href="/trips" 
+                className="black_btn mt-3"
+                onClick={onClose}
+              >
+                View All Trips
+              </Link>
             </div>
           ) : (
             <>

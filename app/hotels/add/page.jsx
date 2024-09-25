@@ -82,7 +82,13 @@ const HotelAdd = () => {
 
   return (
     <section className="w-full">
-      <Header title="Hotels" subtitle="Add a new Hotel to this trip." />
+      <Header 
+        title="Hotels" 
+        subtitle="Add a new hotel to this trip." 
+        showNav 
+        navLeft="<" 
+        navLeftLink="/hotels"
+      />
         <form className="w-full mt-6">
           <div className="flex flex-wrap -mx-3 mb-6">
             <Input

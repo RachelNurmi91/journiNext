@@ -81,8 +81,13 @@ const FlightsAdd = () => {
 
   return (
     <section className="w-full">
-      <Header title="Flights" subtitle="Add a new flight to this trip."/>
-
+      <Header 
+        title="Flights" 
+        subtitle="Add a new flight to this trip." 
+        showNav 
+        navLeft="<" 
+        navLeftLink="/flights"
+      />
         <form className="w-full mt-6">
           <div className="flex flex-wrap -mx-3 mb-6">
             <DatePicker label="Departure" date={flightDetails.departure} setDate={setDate} includeTime/>

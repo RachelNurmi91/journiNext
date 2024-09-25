@@ -1,23 +1,30 @@
 import Link from "next/link"
+import HeaderNav from "./HeaderNav"
 
-const Card = ({ 
+const Header = ({ 
   title, 
   subtitle,
-  rightIcon,
-  rightIconLink,
+  navLeft,
+  navLeftLink,
+  navRight,
+  navRightLink,
+  showNav = false,
 }) => {
 
   return (
-    <div className={subtitle ? '' : 'flex justify-between'}>
-      <h1 className="journi-page-title">{title}</h1>
-      {subtitle && <p>{subtitle}</p>}
-      {rightIcon && (
-        <Link href={rightIconLink}>
-          <span className="journi-page-title">{rightIcon}</span>
-        </Link>
-      )}
+    <div>
+      {showNav && 
+        <HeaderNav leftIcon={navLeft} leftLink={navLeftLink} rightIcon={navRight} rightLink={navRightLink}/>
+      }
+      <div className={subtitle ? '' : 'flex justify-between'}>
+        <h1 className="journi-page-title">{title}</h1>
+        {subtitle && 
+          <p>{subtitle}</p>
+        }
+      </div>
     </div>
+
   )
 }
 
-export default Card
+export default Header

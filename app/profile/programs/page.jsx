@@ -23,7 +23,12 @@ const Programs = () => {
   
   return (
     <section className="w-full">
-      <Header title="Reward Programs" rightIcon="+" rightIconLink="programs/add"/>
+      <Header 
+        title="Reward Programs" 
+        showNav 
+        navRight="+" 
+        navRightLink="programs/add"
+      />
       {programs ? (
         <>        
           {programs?.map((hotel) => (

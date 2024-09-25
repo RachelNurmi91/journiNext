@@ -21,7 +21,12 @@ const Trips = () => {
   
   return (
     <section className="w-full">
-      <Header title="Trips" rightIcon="+" rightIconLink="trips/add"/>
+      <Header 
+        title="Trips" 
+        showNav 
+        navRight="+" 
+        navRightLink="/trips/add"
+      />
         {trips.map((trip) => (
           <div key={trip._id} className="mt-4">
             <Card 

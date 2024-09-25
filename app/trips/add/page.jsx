@@ -76,7 +76,13 @@ const TripAdd = () => {
 
   return (
     <section className="w-full">
-      <Header title="Trips" subtitle="Add a new trip." />
+      <Header 
+        title="Trips" 
+        subtitle="Add a new trip." 
+        showNav 
+        navLeft="<" 
+        navLeftLink="/trips"
+      />
         <form className="w-full mt-6">
           <div className="flex flex-wrap -mx-3 mb-6">
             <Input

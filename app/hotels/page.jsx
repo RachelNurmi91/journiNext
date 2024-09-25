@@ -22,7 +22,12 @@ const Hotels = () => {
   
   return (
     <section className="w-full">
-      <Header title="Hotels" rightIcon="+" rightIconLink="hotels/add" />
+      <Header 
+        title="Hotels" 
+        showNav 
+        navRight="+" 
+        navRightLink="/hotels/add"
+      />
         {hotels?.map((hotel) => (
           <div key={hotel._id} className="mt-4">
             <Card 

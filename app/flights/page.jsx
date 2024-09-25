@@ -20,7 +20,12 @@ const Flights = () => {
   
   return (
     <section className="w-full">
-      <Header title="Flights" rightIcon="+" rightIconLink="flights/add" />
+      <Header 
+        title="Flights" 
+        showNav 
+        navRight="+" 
+        navRightLink="/flights/add"
+      />
         {flights?.map((flight) => (
           <div key={flight._id} className="mt-4">
             <Card 
