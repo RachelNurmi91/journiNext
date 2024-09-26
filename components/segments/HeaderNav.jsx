@@ -9,11 +9,13 @@ const HeaderNav = ({
 }) => {
 
   return (
-    <div className="flex justify-between mb-5">
+    <div className="flex justify-between mb-2">
       {leftIcon ? (      
         <Link href={leftLink}>
-        <div className="bg-slate-200 font-bold rounded-full" style={{height: "40px", width: "40px"}}>
-          {leftIcon}
+        <div className="bg-slate-200 font-bold rounded-full flex justify-center items-center" style={{height: "40px", width: "40px"}}>
+          <span style={{marginTop: "-5px"}}>
+            {leftIcon}
+          </span>
         </div>
       </Link>) : (
         <div></div>
@@ -21,8 +23,10 @@ const HeaderNav = ({
 
       {rightIcon ? (
         <Link href={rightLink}>
-        <div className="bg-sky-300 font-bold rounded-full" style={{height: "40px", width: "40px"}}>
-          {rightIcon}
+        <div className="bg-sky-300 font-bold rounded-full flex justify-center items-center" style={{height: "40px", width: "40px"}}>
+          <span style={{marginTop: "-5px"}}>
+            {rightIcon}
+          </span>
         </div>
       </Link>) : (
         <div></div>

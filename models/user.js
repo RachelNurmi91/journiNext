@@ -1,5 +1,20 @@
 import { Schema, model, models } from "mongoose";
 
+const ProgramSchema = new Schema({
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+  program: {
+    type: String,
+    required: [true, "Program name is required."],
+  },
+  memberId: {
+    type: String,
+    required: [true, "Program Member Id is required."],
+  },
+});
+
 const UserSchema = new Schema({
   email: {
     type: String,
@@ -17,6 +32,7 @@ const UserSchema = new Schema({
   image: {
     type: String,
   },
+  programs: [ProgramSchema],
 });
 
 const User = models.User || model("User", UserSchema);

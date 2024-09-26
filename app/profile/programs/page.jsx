@@ -1,6 +1,6 @@
 "use client"
 
-import Link from "next/link"
+import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import Card from "@components/segments/card"
 import DataUtils from "@utils/dataUtils"
@@ -9,46 +9,49 @@ import Header from "@components/segments/Header"
 const Programs = () => {
   const [programs, setPrograms] = useState([])
 
-  const fetchPrograms = async () => {
-    const res = await fetch("/api/trip")
-    const data = await res.json();
-    console.log(data)
+  const { data: session } = useSession();
 
-    setPrograms(data[0].programs)
+  const fetchPrograms = async () => {
+    if (!session) return
+
+    const email = session.user.email
+    const res = await fetch(`/api/user/${email}`);
+    const data = await res.json();
+
+    setPrograms(data?.programs)
   }
+
 
   useEffect(() => {
     fetchPrograms();
-  }, [])
+  }, [session])
   
   return (
     <section className="w-full">
       <Header 
         title="Reward Programs" 
         showNav 
+        navLeft="<"
+        navLeftLink="/profile"
         navRight="+" 
         navRightLink="programs/add"
       />
-      {programs ? (
+      {programs && programs.length ? (
         <>        
-          {programs?.map((hotel) => (
-              <div key={hotel._id} className="mt-4">
-                {/* <Card 
-                  title={hotel?.hotel}
-                  confirmationNumber={hotel?.confirmationNumber}
-                  location={`${hotel?.city}, ${hotel?.country}`}
-                  titleData1="Arrival Date"
-                  data1={DataUtils.formatLongDate(hotel?.arrivalDate)}
-                  titleData2="Departure Date"
-                  data2={DataUtils.formatLongDate(hotel?.departureDate)}
-                  titleData3="Name on Reservation"
-                  data3={hotel?.nameOnReservation}
-                /> */}
+          {programs?.map((program) => (
+              <div key={program._id} className="mt-4">
+                <Card 
+                  title={program.program}
+                  data1={program.memberId}
+                />
               </div>
             ))
           }
         </>
-      ) : (<>No reward programs.</>)}
+      ) : 
+      (
+        <div>No reward programs.</div>
+      )}
 
 
     </section>

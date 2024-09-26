@@ -36,7 +36,7 @@ export const POST = async (req, res) => {
 
     await trip.save();
 
-    const savedHotel = trip.flights.slice(-1);
+    const savedHotel = trip.hotels.slice(-1);
 
     return res.status(200).json({
       message: "Success: Hotel saved successfully",

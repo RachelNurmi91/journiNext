@@ -1,7 +1,8 @@
 "use client"
 
 import Input from "@components/segments/Input"
-import { useState, useEffect } from "react"
+import { useSession } from "next-auth/react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Header from "@components/segments/Header"
 
@@ -11,31 +12,30 @@ const PROGRAM_DETAILS = {
 }
 
 const ProgramsAdd = () => {
-
   const [isSaving, setIsSaving] = useState(false)
   const [programDetails, setProgramDetails] = useState(PROGRAM_DETAILS)
+
+  const { data: session } = useSession();
+  const router = useRouter();
   
   const saveProgram = async (e) => {
     e.preventDefault() // Prevent browsers default behavior for button submit.
     setIsSaving(true)
     
     try {
-      const response = await fetch('/api/trip/hotels/add', {
+      const response = await fetch('/api/user/programs/add', {
         method: 'POST',
         body: JSON.stringify({
-          tripId: currentTrip,
-          hotel: programDetails.hotel,
-          confirmationNumber: programDetails.confirmationNumber,
-          arrivalDate: programDetails.arrivalDate,
-          departureDate: programDetails.departureDate,
-          nameOnReservation: programDetails.nameOnReservation,
-          city: programDetails.city,
-          country: programDetails.country,
+          userId: session.user.id,
+          program: programDetails.program,
+          memberId: programDetails.memberId,
         }),
       });
 
+      console.log('response: ', response)
+
       if (response.ok) {
-        router.push('/hotels')
+        router.push('/profile/programs')
       }
     } catch (error) {
       console.error(error)

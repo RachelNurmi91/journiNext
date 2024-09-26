@@ -23,33 +23,32 @@ const Home = () => {
   
 
   return (
-<section className="w-full flex-center flex-col text-center">
-    { session 
-      ? 
-      (
-        <div>
-          <h1>Welcome Back!</h1>
-          {
-            trips ? (
-              <div>
-                <p>Your next trip is to {trips[0].trip}</p>
-                <p>Get ready to leave on {DataUtils.formatLongDate(trips[0].startDate)}</p>
-              </div>
-            ) :
-            (
-            <>
-              <p>
-                Are you ready for your first trip?
-              </p>
-              <TripAdd />
-            </>)
-          }
-        </div>
-      )
-      : 
-      (<div>Sign in to add a trip</div>) }
-  
-  </section>
+    <section className="w-full flex-center flex-col text-center">
+      { session 
+        ? 
+        (
+          <div>
+            <h1>Welcome Back!</h1>
+            {
+              trips && trips.length ? (
+                <div>
+                  <p>Your next trip is to {trips[0].trip}</p>
+                  <p>Get ready to leave on {DataUtils.formatLongDate(trips[0].startDate)}</p>
+                </div>
+              ) :
+              (
+              <>
+                <p>
+                  Are you ready for your first trip?
+                </p>
+                <TripAdd />
+              </>)
+            }
+          </div>
+        )
+        : 
+        (<div>Sign in to add a trip</div>) }
+    </section>
   )
 }
 
