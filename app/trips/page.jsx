@@ -11,7 +11,7 @@ const Trips = () => {
 
   const { data: session } = useSession();
 
-  const fetchHotels = async () => {
+  const fetchTrips = async () => {
     if (!session) return
 
     const res = await fetch("/api/trip")
@@ -21,8 +21,22 @@ const Trips = () => {
   }
 
   useEffect(() => {
-    fetchHotels();
-  }, [])
+    fetchTrips();
+  }, [session])
+
+  const deleteTrip = async (trip) => {
+
+    const tripId = trip?._id;
+   
+    if (!session) return
+
+    const res = await fetch(`/api/trip/delete/${tripId}`, {
+      method: 'Delete',
+    })
+    const data = await res.json();
+
+    setTrips(data)
+  }
   
   return (
     <section className="w-full">
@@ -35,7 +49,7 @@ const Trips = () => {
       {trips && trips.length ? (
         <>
         {trips.map((trip) => (
-          <div key={trip._id} className="mt-4">
+          <div key={trip._id} className="mt-4" onClick={() => deleteTrip(trip)}>
             <Card 
               title={trip.trip}
               titleData1="Start Date"
