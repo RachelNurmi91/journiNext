@@ -6,12 +6,24 @@ import { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import { Sling as Hamburger } from "hamburger-react";
 import SideNav from '@components/SideNav';
+import ApiUtils from "@utils/apiUtils";
 
 const Nav = () => {
-  const { data: session } = useSession();
-
   const [providers, setProviders] = useState(null);
   const [showSideNav, setShowSideNav] = useState(false);
+  const [userData, setUserData] = useState(null)
+
+  const { data: session } = useSession();
+
+  const fetchUserData = async () => {
+    let user = JSON.parse(localStorage.getItem('journiUser'));
+    let userResponse = await ApiUtils.fetchUser(user.userId);
+    setUserData(userResponse);
+  }
+
+  const closeSideNav = () => {
+    setShowSideNav(false);
+  };
 
   useEffect(() => {
     const setupProviders = async () => {
@@ -19,20 +31,13 @@ const Nav = () => {
       setProviders(response);
     };
     setupProviders();
+    fetchUserData();
+    closeSideNav();
   }, []);
 
   const toggleSideNav = () => {
     setShowSideNav((prevState) => !prevState);
   };
-
-  const closeSideNav = () => {
-    setShowSideNav(false);
-  };
-  
-
-  useEffect(() => {
-    closeSideNav();
-  }, []);
 
   return (
     <nav className="flex-between w-full bg-sky-300 px-3">
@@ -53,7 +58,7 @@ const Nav = () => {
       </Link>
 
       <div className="flex">
-        {session?.user ? (
+        {userData ? (
           <div className="flex gap-3 md:gap-5">
 
             <Link href='/profile'>
@@ -66,9 +71,9 @@ const Nav = () => {
               />
             </Link>
 
-            <button type='button' onClick={signOut} className="outline_btn">
+            {/* <button type='button' onClick={signOut} className="outline_btn">
               Sign Out
-            </button>
+            </button> */}
           </div>
         ) : (
           <>

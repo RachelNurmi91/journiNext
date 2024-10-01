@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Header from "@components/segments/Header"
 import ApiUtils from "@utils/apiUtils"
+import DataUtils from "@utils/dataUtils"
 
 let defaultStart = new Date()
 let defaultEnd = new Date()
@@ -27,27 +28,17 @@ const TripAdd = () => {
 
   const [isSaving, setIsSaving] = useState(false)
   const [tripDetails, setTripDetails] = useState(TRIP_DETAILS)
-  const [trips, setTrips] = useState([])
+  const [userData, setUserData] = useState(null)
 
-  const { data: session } = useSession();
-  const router = useRouter();
-
-  const fetchTrips = async () => {
-    if (session)
-      ApiUtils.fetchUser(session).then((data) => {
-        const tripData = data.trips
-        setTrips(tripData)
-      })
-  };
-
-  console.log(trips)
+  const fetchUserData = async () => {
+    let user = JSON.parse(localStorage.getItem('journiUser'));
+    let userResponse = await ApiUtils.fetchUser(user.userId);
+    setUserData(userResponse);
+  }
 
   useEffect(() => {
-    fetchTrips();
-  }, [session])
-
-
-
+    fetchUserData();
+  }, [])
   
   const saveTrip = async (e) => {
     e.preventDefault() // Prevent browsers default behavior for button submit.
@@ -57,9 +48,9 @@ const TripAdd = () => {
       const response = await fetch('/api/user/trips/add', {
         method: 'POST',
         body: JSON.stringify({
-          email: session.user.email,
+          userId: userData.userId,
           trip: tripDetails.trip,
-          tripId: generateTripId(),
+          tripId: DataUtils.generateUniqueNumber(6),
           startDate: tripDetails.start,
           endDate: tripDetails.end,
           selections: {
@@ -109,6 +100,20 @@ const TripAdd = () => {
               placeholder='Give your trip a unique name'
               onChange={(e) => setTripDetails({...tripDetails, trip: e.target.value})}
               full
+            />
+            <Input
+              id='start'
+              label='Start Date'
+              type='text'
+              placeholder='When does your trip start?'
+              onChange={(e) => setTripDetails({...tripDetails, start: e.target.value})}
+            />
+            <Input
+              id='end'
+              label='End Date'
+              type='text'
+              placeholder='When does your trip end?'
+              onChange={(e) => setTripDetails({...tripDetails, end: e.target.value})}
             />
             <Checkbox 
               id='flights'

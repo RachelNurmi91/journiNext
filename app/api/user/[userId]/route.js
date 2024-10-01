@@ -3,22 +3,13 @@ import User from "@models/user";
 import { connectDatabase } from "@utils/database";
 
 export const GET = async (req, { params }) => {
-  // Make sure to destructure params from the second argument
-  console.log("Received params:", params); // Log params to see what's received
-
-  // Check if params is defined and contains email
-  if (!params || !params.email) {
-    return new Response("Parameters are missing", { status: 400 });
-  }
-
-  const { email } = params; // Extract email from params
-  console.log("email", email); // Log email to debug
+  const { userId } = params; // Extract email from params
 
   try {
     await connectDatabase();
 
     // Find user by email
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ userId });
 
     if (!user) {
       return new Response("User not found", { status: 404 });

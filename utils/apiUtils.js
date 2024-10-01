@@ -1,7 +1,6 @@
 export default class ApiUtils {
-  static fetchUser = async (session) => {
-    const email = session?.user?.email;
-    const response = await fetch(`/api/user/${encodeURIComponent(email)}`);
+  static fetchUser = async (userId) => {
+    const response = await fetch(`/api/user/${userId}`);
     const data = await response.json();
 
     return data;

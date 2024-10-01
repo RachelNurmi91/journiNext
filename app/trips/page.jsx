@@ -9,20 +9,18 @@ import ApiUtils from "@utils/apiUtils"
 
 const Trips = () => {
   const [tripData, setTripData] = useState([])
+  const [userData, setUserData] = useState(null)
 
-  const { data: session } = useSession();
-
-  const fetchTrips = async () => {
-    if (session)
-      ApiUtils.fetchUser(session).then((data) => {
-        const tripData = data.trips
-        setTripData(tripData)
-      })
-  };
+  const fetchUserData = async () => {
+    let user = JSON.parse(localStorage.getItem('journiUser'));
+    let userResponse = await ApiUtils.fetchUser(user.userId);
+    setTripData(userResponse.trips);
+  }
 
   useEffect(() => {
-    fetchTrips();
-  }, [session])
+    fetchUserData();
+  }, [])
+  
 
   const deleteTrip = async (trip) => {
 

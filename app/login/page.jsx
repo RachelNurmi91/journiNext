@@ -3,6 +3,7 @@
 import Input from "@components/segments/Input"
 import { useState, useCallback } from "react"
 import Header from "@components/segments/Header"
+import { useRouter } from "next/navigation"
 
 const USER_DETAILS = {
   email: '',
@@ -10,11 +11,11 @@ const USER_DETAILS = {
 }
 
 const Register = () => {
-
   const [userDetails, setUserDetails] = useState(USER_DETAILS)
-
   const [error, setError] = useState(null)
   const [saving, setSaving] = useState(false)
+
+  const router = useRouter();
 
   const errorCheck = useCallback(() => {
     let hasError = false;
@@ -54,15 +55,20 @@ const Register = () => {
     }
 
     try {
-
       const response = await fetch(`/api/user/${userDetails.email}`);
       const userData = await response.json();
+      
 
       if (response.ok) {
-        
-        localStorage.setItem('userId', JSON.stringify(userData.userId))
-        // router.push('/')
+        const userCookieData = {
+          userId: userData.userId,
+          email: userData.email,
+        }
+
+        localStorage.setItem('journiUser', JSON.stringify(userCookieData))
+        router.push('/')
       }
+
     } catch (error) {
       console.error(error)
     } finally {

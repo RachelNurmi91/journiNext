@@ -1,9 +1,9 @@
 export default class DataUtils {
-  static generateUniqueId(length) {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  static generateUniqueNumber(length) {
+    const chars = "0123456789";
     let id = "";
     for (let i = 0; i < length; i++) {
-      id += chars.charAt(Math.floor(Math.random() * length));
+      id += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return id;
   }

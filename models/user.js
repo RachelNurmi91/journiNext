@@ -70,11 +70,11 @@ const TripSchema = new Schema({
     required: [true, "Name is required."],
   },
   startDate: {
-    type: Date,
+    type: String,
     required: [true, "Start date is required."],
   },
   endDate: {
-    type: Date,
+    type: String,
     required: [true, "End date is required."],
   },
   flights: [FlightSchema],
