@@ -2,8 +2,6 @@
 
 import Input from "@components/segments/Input"
 import { useState, useCallback, useEffect } from "react"
-import { useSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
 import Header from "@components/segments/Header"
 
 const USER_DETAILS = {
@@ -18,7 +16,7 @@ const Register = () => {
   const [userDetails, setUserDetails] = useState(USER_DETAILS)
 
   const [error, setError] = useState(null)
-  const [isSaving, setIsSaving] = useState(false)
+  const [saving, setSaving] = useState(false)
 
   const errorCheck = useCallback(() => {
     let hasError = false;
@@ -66,11 +64,14 @@ const Register = () => {
   
   const register = async (e) => {
     e.preventDefault() // Prevent browsers default behavior for button submit.
-    setIsSaving(true)
+    setSaving(true)
 
     const error = errorCheck();
 
-    if (error) { return }
+    if (error) { 
+      setSaving(false)
+      return;
+    }
 
     try {
 
@@ -85,14 +86,14 @@ const Register = () => {
       });
 
       if (response.status === 200) {
-
+        
         console.log(response)
         // router.push('/')
       }
     } catch (error) {
       console.error(error)
     } finally {
-      setIsSaving(false)
+      setSaving(false)
     }
   }
 
@@ -152,7 +153,8 @@ const Register = () => {
             className="black_btn"
             onClick={(e) => register(e)}
           >
-            Register
+            {saving ? 'Saving...' : 'Register'}
+            
           </button>  
         </div>
         
