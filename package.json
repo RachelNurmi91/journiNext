@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "air-datepicker": "^3.5.3",
     "bcrypt": "^5.1.1",
     "hamburger-react": "^2.5.1",
     "mongodb": "^6.9.0",

@@ -4,6 +4,7 @@ import TripAdd from "./trips/add/page"
 import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import DataUtils from "@utils/dataUtils"
+import Link from "next/link"
 
 const Home = () => {
   const [trips, setTrips] = useState(null)
@@ -47,7 +48,7 @@ const Home = () => {
           </div>
         )
         : 
-        (<div>Sign in to add a trip</div>) }
+        (<div>Sign in or <Link href="/register">Register</Link> to add a trip</div>) }
     </section>
   )
 }

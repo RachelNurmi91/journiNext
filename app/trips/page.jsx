@@ -5,20 +5,20 @@ import Card from "@components/segments/card"
 import DataUtils from "@utils/dataUtils"
 import Header from "@components/segments/Header"
 import { useSession } from "next-auth/react"
+import ApiUtils from "@utils/apiUtils"
 
 const Trips = () => {
-  const [trips, setTrips] = useState([])
+  const [tripData, setTripData] = useState([])
 
   const { data: session } = useSession();
 
   const fetchTrips = async () => {
-    if (!session) return
-
-    const res = await fetch("/api/trip")
-    const data = await res.json();
-
-    setTrips(data)
-  }
+    if (session)
+      ApiUtils.fetchUser(session).then((data) => {
+        const tripData = data.trips
+        setTripData(tripData)
+      })
+  };
 
   useEffect(() => {
     fetchTrips();
@@ -35,7 +35,7 @@ const Trips = () => {
     })
     const data = await res.json();
 
-    setTrips(data)
+    setTripData(data)
   }
   
   return (
@@ -46,9 +46,9 @@ const Trips = () => {
         navRight="+" 
         navRightLink="/trips/add"
       />
-      {trips && trips.length ? (
+      {tripData && tripData.length ? (
         <>
-        {trips.map((trip) => (
+        {tripData.map((trip) => (
           <div key={trip._id} className="mt-4" onClick={() => deleteTrip(trip)}>
             <Card 
               title={trip.trip}

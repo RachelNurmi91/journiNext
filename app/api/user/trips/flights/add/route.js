@@ -1,4 +1,4 @@
-import Trip from "@models/trip";
+import User from "@models/user";
 import { connectDatabase } from "@utils/database";
 
 export const POST = async (req, res) => {
@@ -20,7 +20,7 @@ export const POST = async (req, res) => {
       confirmationNumber,
     };
 
-    const trip = await Trip.findById(tripId);
+    const trip = await User.findById(tripId);
 
     if (!trip) {
       return new Response("Trip not found", { status: 404 });

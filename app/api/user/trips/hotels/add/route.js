@@ -1,4 +1,4 @@
-import Trip from "@models/trip";
+import User from "@models/user";
 import { connectDatabase } from "@utils/database";
 
 export const POST = async (req, res) => {
@@ -26,24 +26,21 @@ export const POST = async (req, res) => {
       country,
     };
 
-    const trip = await Trip.findById(tripId);
+    const trip = await User.findById(tripId);
 
     if (!trip) {
-      return res.status(404).json({ message: "Trip not found." });
+      return new Response("Trip not found", { status: 404 });
     }
 
     trip.hotels.push(newHotel);
 
     await trip.save();
 
-    const savedHotel = trip.hotels.slice(-1);
+    const savedHotel = trip.flights.slice(-1);
 
-    return res.status(200).json({
-      message: "Success: Hotel saved successfully",
-      newFlight: savedHotel,
-    });
+    return new Response(JSON.stringify(savedHotel), { status: 201 });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Failed to create a new hotel" });
+    return new Response("Failed to add a new hotel", { status: 500 });
   }
 };

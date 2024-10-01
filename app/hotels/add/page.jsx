@@ -4,7 +4,6 @@ import Input from "@components/segments/Input"
 import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import Header from "@components/segments/Header"
-import DatePicker from "@components/segments/DatePicker"
 
 let defaultArrival = new Date()
 let defaultDeparture = new Date()
@@ -99,7 +98,7 @@ const HotelAdd = () => {
               onChange={(e) => setHotelDetails({...hotelDetails, hotel: e.target.value})}
               full
             />
-                        <Input
+            <Input
               id='confirmationNumber'
               label='Confirmation'
               type='text'
@@ -107,8 +106,6 @@ const HotelAdd = () => {
               onChange={(e) => setHotelDetails({...hotelDetails, confirmationNumber: e.target.value})}
               full
             />
-            <DatePicker label="Arrival" date={hotelDetails.arrivalDate} setDate={setDate}/>
-            <DatePicker label="Departure" date={hotelDetails.departureDate} setDate={setDate}/>
             <Input
               id='nameOnReservation'
               label='Name on Reservation'

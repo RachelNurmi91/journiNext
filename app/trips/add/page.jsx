@@ -2,11 +2,11 @@
 
 import Input from "@components/segments/Input"
 import Checkbox from "@components/segments/Checkbox"
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Header from "@components/segments/Header"
-import DatePicker from "@components/segments/DatePicker"
+import ApiUtils from "@utils/apiUtils"
 
 let defaultStart = new Date()
 let defaultEnd = new Date()
@@ -27,9 +27,26 @@ const TripAdd = () => {
 
   const [isSaving, setIsSaving] = useState(false)
   const [tripDetails, setTripDetails] = useState(TRIP_DETAILS)
+  const [trips, setTrips] = useState([])
 
   const { data: session } = useSession();
   const router = useRouter();
+
+  const fetchTrips = async () => {
+    if (session)
+      ApiUtils.fetchUser(session).then((data) => {
+        const tripData = data.trips
+        setTrips(tripData)
+      })
+  };
+
+  console.log(trips)
+
+  useEffect(() => {
+    fetchTrips();
+  }, [session])
+
+
 
   
   const saveTrip = async (e) => {
@@ -37,11 +54,12 @@ const TripAdd = () => {
     setIsSaving(true)
 
     try {
-      const response = await fetch('/api/trip/add', {
+      const response = await fetch('/api/user/trips/add', {
         method: 'POST',
         body: JSON.stringify({
-          userId: session?.user.id,
+          email: session.user.email,
           trip: tripDetails.trip,
+          tripId: generateTripId(),
           startDate: tripDetails.start,
           endDate: tripDetails.end,
           selections: {
@@ -51,8 +69,8 @@ const TripAdd = () => {
         }),
       });
 
-      if (response.ok) {
-        router.push('/')
+      if (response.status === 200) {
+        // router.push('/')
       }
     } catch (error) {
       console.error(error)
@@ -70,6 +88,7 @@ const TripAdd = () => {
     })
     
   }, []);
+  
 
 
   return (
@@ -91,8 +110,6 @@ const TripAdd = () => {
               onChange={(e) => setTripDetails({...tripDetails, trip: e.target.value})}
               full
             />
-            <DatePicker label="Start" date={tripDetails.start} setDate={setDate}/>
-            <DatePicker label="End" date={tripDetails.end} setDate={setDate}/>
             <Checkbox 
               id='flights'
               label='Flights'

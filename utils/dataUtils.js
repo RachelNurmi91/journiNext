@@ -1,4 +1,13 @@
 export default class DataUtils {
+  static generateUniqueId(length) {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let id = "";
+    for (let i = 0; i < length; i++) {
+      id += chars.charAt(Math.floor(Math.random() * length));
+    }
+    return id;
+  }
+
   static formatShortDate = (unformattedDate) => {
     const date = new Date(unformattedDate);
 
