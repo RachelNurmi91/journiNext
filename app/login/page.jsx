@@ -55,7 +55,9 @@ const Register = () => {
     }
 
     try {
+      console.log('userDetails', userDetails)
       const response = await fetch(`/api/user/${userDetails.email}`);
+      console.log('userData', response)
       const userData = await response.json();
       
 

@@ -3,13 +3,14 @@ import User from "@models/user";
 import { connectDatabase } from "@utils/database";
 
 export const GET = async (req, { params }) => {
-  const { userId } = params; // Extract email from params
+  // Extract email from params.
+  const { email } = params;
 
   try {
     await connectDatabase();
 
-    // Find user by email
-    const user = await User.findOne({ userId });
+    // Find user by email.
+    const user = await User.findOne(email);
 
     if (!user) {
       return new Response("User not found", { status: 404 });

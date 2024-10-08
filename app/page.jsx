@@ -16,7 +16,10 @@ const Home = () => {
   }
 
   useEffect(() => {
-    fetchUserData();
+    let user = JSON.parse(localStorage.getItem('journiUser'));
+    if (user) {
+      fetchUserData(user)
+    }
   }, [])
   
 

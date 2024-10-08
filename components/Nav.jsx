@@ -15,8 +15,7 @@ const Nav = () => {
 
   const { data: session } = useSession();
 
-  const fetchUserData = async () => {
-    let user = JSON.parse(localStorage.getItem('journiUser'));
+  const fetchUserData = async (user) => {
     let userResponse = await ApiUtils.fetchUser(user.userId);
     setUserData(userResponse);
   }
@@ -30,8 +29,12 @@ const Nav = () => {
       const response = await getProviders();
       setProviders(response);
     };
+    let user = JSON.parse(localStorage.getItem('journiUser'));
+
     setupProviders();
-    fetchUserData();
+    if (user) {
+      fetchUserData(user)
+    }
     closeSideNav();
   }, []);
 
